@@ -1,0 +1,86 @@
+Academic Screen Monitoring Tool   We are developing an AI-powered screen monitoring and supervision system tailored for IT classrooms, where students engage in coding lessons or practical exams. In teaching mode, instructors gain real-time visibility into every student's PC through a centralized dashboard displaying live screen thumbnails, enabling quick assessments of productivity—such as detecting whether a student is actively typing code in an IDE, browsing idly, or launching distractions like games. If a student encounters errors, the teacher can seamlessly assume remote control of the affected PC to troubleshoot and resolve issues on the spot, minimizing disruptions. During practical exams, the system shifts to autonomous oversight, with AI continuously analyzing each student's screen content and network activity; it flags potential cheating attempts—such as opening prohibited tools like AI chatbots or unauthorized websites—by instantly alerting the teacher with timestamped evidence, ensuring a fair and secure evaluation environment while upholding student privacy through encrypted, consent-based data handling
+
+Cheating to tackle :-
+-Internet
+-Pendrive(External Devices)
+-Chatgpt/Ai use detection
+
+Features:-
+-Screen monitoring(screenshot every 1s)
+-Screen Control(similiar to remote desktop or anydesk)
+-Ai use cheating detection
+-Program whitelist and blacklist
+-Student IDLE detection in teaching mode
+-Suspicion score / Ai risk score
+-Two modes:- Teaching mode and Exam mode
+-Live screen thumbnails,add color ball on student tile in teachers dashboard.
+-Keylogging on agent(student pc)
+-Live screen broadcast by teacher to all agent pc
+-agent pc lock on server command(when teachers block particular pc or all pcs.Mouse and keyboard inputs stop working)
+-Network monitoring:-logs all network in and out.tracks them and sends data to ai for cheating detection while exam.
+-external device detection :- Usb,cd
+
+
+
+
+Project:-
+-Software should be made in different modules for failsafe.each module works independently of each other and one that controls all modules.Such as:- Screenshot module,Keylogging module,Network monitoring module.
+
+Failures > Tackles:-
+1.STUDENT AGENT CRASHES > Show student is offline , heartbeat every 5-15sec , agent tries to restart.
+
+2.NETWORK TEMPORARILY FAILS > Show student is offline , store screenshots/logs locally, send ss to server once network recovers 
+
+3.SERVER (TEACHER PC) FAILS > store screenshots/logs locally, send ss to server once network recovers , Agent tries to connect to server every 30 - 60 secs
+
+
+
+VISTA/
+├─ agent/
+│  ├─ src/
+│  │  ├─ agent_entry.py              # CLI + Service entrypoint (runs modules)
+│  │  ├─ orchestrator.py             # starts/stops modules, heartbeat, health checks
+│  │  ├─ modules/
+│  │  │  ├─ screenshot.py            # expose start(), stop(), get_thumbnail()
+│  │  │  ├─ keylogger.py             # start(), stop(), poll_events()
+│  │  │  ├─ network_monitor.py       # start(), stop(), get_flow_features()
+│  │  │  ├─ usb_watcher.py           # start(), stop(), on_device_event()
+│  │  │  ├─ storage.py               # encrypted buffer, rotate(), flush()
+|  |  |  ├─ broadcast_receiver.py   
+|  |  |  ├─ lock/unlockreceiver.py          
+│  │  ├─ utils/
+│  │  │  ├─ crypto.py                # encrypt/decrypt, key management
+│  │  │  ├─ config.py                # loads from ProgramData / env
+│  │  │  └─ logger.py
+│  ├─ requirements.txt
+│  └─ pyinstaller.spec
+│
+├─ server/
+│  ├─ api/
+│  │  ├─ main.py                     # FastAPI server, websocket endpoints
+│  │  ├─ ingest.py                   # routes to receive screenshots & events
+│  │  └─ models/                     # pydantic models / protobuf if used
+│  ├─ workers/
+│  │  ├─ ai_scoring.py               # orchestration for ML models
+│  │  └─ feature_extractor.py
+|  |  ├─ broadcaster.py
+|  |  ├─ lock/unlockreceiver.py   
+│  ├─ ui/
+│  │  └─ streamlit_dashboard/        # Streamlit app: teacher dashboard
+│  ├─ db/
+│  │  └─ migrations/
+│  └─ requirements.txt
+│
+├─ infra/
+│  ├─ wifi-x509/                     # cert provisioning scripts (dev)
+│  ├─ docker/                        # docker-compose for dev server
+│  └─ wixtoolset/                    # WiX templates for MSI packaging
+│
+├─ docs/
+└─ tests/
+
+
+
+
+
+aditi mam :- summary generator
