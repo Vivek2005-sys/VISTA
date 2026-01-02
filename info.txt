@@ -41,13 +41,14 @@ VISTA/
 │  │  ├─ agent_entry.py              # CLI + Service entrypoint (runs modules)
 │  │  ├─ orchestrator.py             # starts/stops modules, heartbeat, health checks
 │  │  ├─ modules/
-│  │  │  ├─ screenshot.py            # expose start(), stop(), get_thumbnail()
-│  │  │  ├─ keylogger.py             # start(), stop(), poll_events()
-│  │  │  ├─ network_monitor.py       # start(), stop(), get_flow_features()
-│  │  │  ├─ usb_watcher.py           # start(), stop(), on_device_event()
+│  │  │  ├─ screenshot.py            # expose start(), stop(), get_thumbnail() ✅
+│  │  │  ├─ keylogger.py             # start(), stop(), poll_events()✅
+│  │  │  ├─ network_monitor.py       # start(), stop(), get_flow_features()  // will try in future
+│  │  │  ├─ usb_watcher.py           # start(), stop(), on_device_event()✅
 │  │  │  ├─ storage.py               # encrypted buffer, rotate(), flush()
-|  |  |  ├─ broadcast_receiver.py   
-|  |  |  ├─ lock/unlockreceiver.py          
+|  |  |  ├─ broadcast_receiver.py   ✅
+|  |  |  ├─ lock/unlock_receiver.py   ✅
+|  |  |  ├─ apps_and_process_blocker.py ✅
 │  │  ├─ utils/
 │  │  │  ├─ crypto.py                # encrypt/decrypt, key management
 │  │  │  ├─ config.py                # loads from ProgramData / env
@@ -64,7 +65,7 @@ VISTA/
 │  │  ├─ ai_scoring.py               # orchestration for ML models
 │  │  └─ feature_extractor.py
 |  |  ├─ broadcaster.py
-|  |  ├─ lock/unlockreceiver.py   
+|  |  ├─ lock/unlocksender.py   
 │  ├─ ui/
 │  │  └─ streamlit_dashboard/        # Streamlit app: teacher dashboard
 │  ├─ db/
@@ -85,4 +86,5 @@ VISTA/
 
 aditi mam :- summary generator
 
-Hii vivek
+for the api use 1> websockets and https uploads
+or 2> gRPC
